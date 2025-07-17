@@ -56,7 +56,7 @@ export default function Dashboard() {
       .catch(err => console.error('Error fetching progress:', err));
 
     // Fetch productivity data
-    fetch("http://localhost:5000/api/productivity/today", {
+    fetch("https://eduwise-backend-itjy.onrender.com", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {

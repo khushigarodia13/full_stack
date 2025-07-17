@@ -8,7 +8,7 @@ export default function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    fetch("http://localhost:5000/api/user/me", {
+    fetch("https://eduwise-backend-itjy.onrender.com", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

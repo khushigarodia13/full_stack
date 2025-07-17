@@ -7,14 +7,14 @@ export default function JobPrepToggle({ selectedCompany, setLearningPath }) {
     const token = localStorage.getItem("token");
     if (!jobPrep && selectedCompany) {
       // Fetch company-specific path
-      const res = await fetch(`http://localhost:5000/api/learning-path/company/${selectedCompany}`, {
+      const res = await fetch(`https://eduwise-backend-itjy.onrender.com/company/${selectedCompany}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
       setLearningPath(data.learningPath);
     } else {
       // Fetch default path
-      const res = await fetch("http://localhost:5000/api/learning-path", {
+      const res = await fetch("https://eduwise-backend-itjy.onrender.com", {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();

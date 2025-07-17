@@ -31,7 +31,7 @@ export default function Profile() {
   const handleSave = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:5000/api/user/profile", {
+      const response = await fetch("https://eduwise-backend-itjy.onrender.com", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

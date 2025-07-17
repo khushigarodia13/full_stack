@@ -136,7 +136,7 @@ export default function Onboarding() {
                 <input 
                   className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none" 
                   type="url" 
-                  placeholder="https://github.com/username" 
+                  placeholder="https://eduwise-backend-itjy.onrender.com" 
                   value={github} 
                   onChange={e => setGithub(e.target.value)} 
                 />

@@ -46,13 +46,13 @@ export default function Roadmap() {
       .then(res => res.json())
       .then(data => setUser(data.user));
 
-    fetch("http://localhost:5000/api/learning-path", {
+    fetch("https://eduwise-backend-itjy.onrender.com", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
       .then(data => setLearningPath(data.learningPath));
 
-    fetch("http://localhost:5000/api/user/progress", {
+    fetch("https://eduwise-backend-itjy.onrender.com", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -78,7 +78,7 @@ export default function Roadmap() {
   // Handler: Mark/unmark technology as complete
   const handleTechCheckbox = async (roadmap, checked) => {
     const token = localStorage.getItem("token");
-    await fetch("http://localhost:5000/api/user/progress", {
+    await fetch("https://eduwise-backend-itjy.onrender.com", {
       method: checked ? "POST" : "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function Roadmap() {
       body: JSON.stringify({ nodeId: roadmap.title }),
     });
     // Refresh progress
-    fetch("http://localhost:5000/api/user/progress", {
+    fetch("https://eduwise-backend-itjy.onrender.com", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())

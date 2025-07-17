@@ -9,7 +9,7 @@ export default function GitHubSync() {
   const handleSync = async () => {
     setLoading(true);
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/api/user/github/activity", {
+    const res = await fetch("https://eduwise-backend-itjy.onrender.com", {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) {

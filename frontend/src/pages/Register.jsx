@@ -115,13 +115,13 @@ export default function Register() {
           <div className="mt-6 grid grid-cols-2 gap-3">
             <a 
               className="w-full inline-flex justify-center py-3 px-4 border border-gray-600 rounded-lg shadow-sm bg-gray-800 text-white hover:bg-gray-700 transition-all duration-300"
-              href="http://localhost:5000/api/auth/google"
+              href="https://eduwise-backend-itjy.onrender.com"
             >
               <FaGoogle className="text-xl" />
             </a>
             <a 
               className="w-full inline-flex justify-center py-3 px-4 border border-gray-600 rounded-lg shadow-sm bg-gray-800 text-white hover:bg-gray-700 transition-all duration-300"
-              href="http://localhost:5000/api/auth/github"
+              href="https://eduwise-backend-itjy.onrender.com"
             >
               <FaGithub className="text-xl" />
             </a>
