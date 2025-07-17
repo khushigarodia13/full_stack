@@ -1,157 +1,230 @@
 import React, { useState, useEffect } from "react";
-import { FaTrophy, FaGithub, FaUsers, FaUserFriends, FaStar, FaChartLine, FaSearch } from "react-icons/fa";
-
-const SECTIONS = [
-  { key: "interests", label: "Interests", icon: <FaStar /> },
-  { key: "progress", label: "Progress", icon: <FaChartLine /> },
-  { key: "badges", label: "Badges", icon: <FaTrophy /> },
-  { key: "mentors", label: "Mentors", icon: <FaUserFriends /> },
-  { key: "team", label: "Find Team", icon: <FaUsers /> },
-];
+import { FaUser, FaEdit, FaSave, FaEnvelope, FaPhone, FaMapMarkerAlt, FaGraduationCap, FaBullseye } from "react-icons/fa";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
-  const [activeSection, setActiveSection] = useState("interests");
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetch("http://localhost:5000/api/user/me", {
       headers: { Authorization: `Bearer ${token}` }
     })
-      .then(res => res.json())
-      .then(data => setUser(data.user));
-  }, []);
-
-  if (!user) return <div className="text-white p-8">Loading...</div>;
-
-  return (
-    <div className="min-h-screen flex bg-gradient-to-br from-black via-gray-900 to-gray-800">
-      {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-white flex flex-col p-6 border-r border-slate-800">
-        <h2 className="text-2xl font-bold mb-8">Profile</h2>
-        {SECTIONS.map(section => (
-          <button
-            key={section.key}
-            onClick={() => setActiveSection(section.key)}
-            className={`flex items-center gap-3 px-4 py-2 mb-2 rounded transition ${
-              activeSection === section.key
-                ? "bg-indigo-600 text-white"
-                : "hover:bg-slate-800 text-gray-300"
-            }`}
-          >
-            {section.icon}
-            {section.label}
-          </button>
-        ))}
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 p-8 text-white">
-        {activeSection === "interests" && <InterestsSection user={user} />}
-        {activeSection === "progress" && <ProgressSection user={user} />}
-        {activeSection === "badges" && <BadgesSection user={user} />}
-        {activeSection === "mentors" && <MentorsSection />}
-        {activeSection === "team" && <TeamSection />}
-      </main>
-    </div>
-  );
-}
-function InterestsSection({ user }) {
-  return (
-    <div>
-      <h3 className="text-xl font-bold mb-4">Your Interests</h3>
-      <div className="bg-slate-800 rounded p-4">
-        {user.interests && user.interests.length > 0
-          ? user.interests.map((interest, idx) => (
-              <span key={idx} className="inline-block bg-indigo-700 text-white px-3 py-1 rounded mr-2 mb-2">
-                {interest}
-              </span>
-            ))
-          : <span className="text-gray-400">No interests set yet.</span>
-        }
-      </div>
-    </div>
-  );
-}
-function ProgressSection({ user }) {
-  return (
-    <div>
-      <h3 className="text-xl font-bold mb-4">Your Progress</h3>
-      <div className="bg-emerald-900 rounded p-4">
-        <div>Modules completed: <span className="font-bold">{user.progress?.length || 0}</span></div>
-        {/* Add more progress details as needed */}
-      </div>
-    </div>
-  );
-}
-function BadgesSection({ user }) {
-  return (
-    <div>
-      <h3 className="text-xl font-bold mb-4">Badges Earned</h3>
-      <div className="flex gap-4 flex-wrap">
-        {user.badges && user.badges.includes("5_modules") && (
-          <div className="bg-emerald-800 text-emerald-200 px-4 py-2 rounded flex items-center gap-2">
-            <FaTrophy /> 5 Modules Completed
-          </div>
-        )}
-        {user.badges && user.badges.includes("github_synced") && (
-          <div className="bg-indigo-800 text-indigo-200 px-4 py-2 rounded flex items-center gap-2">
-            <FaGithub /> GitHub Synced
-          </div>
-        )}
-        {/* Add more badges as needed */}
-        {(!user.badges || user.badges.length === 0) && (
-          <span className="text-gray-400">No badges earned yet.</span>
-        )}
-      </div>
-    </div>
-  );
-}
-function MentorsSection() {
-  const [mentors, setMentors] = useState([]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch("http://localhost:5000/api/mentors", {
-      headers: { Authorization: `Bearer ${token}` }
+    .then(res => res.json())
+    .then(data => {
+      setUser(data.user);
+      setFormData({
+        name: data.user?.name || '',
+        email: data.user?.email || '',
+        year: data.user?.year || '',
+        college: data.user?.college || '',
+        background: data.user?.background || '',
+        goals: data.user?.goals || '',
+        phone: data.user?.phone || '',
+        location: data.user?.location || ''
+      });
     })
-      .then(res => res.json())
-      .then(data => setMentors(data.mentors));
+    .catch(err => console.error("User fetch error:", err));
   }, []);
 
+  const handleSave = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("http://localhost:5000/api/user/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setUser(updatedUser.user);
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  if (!user) return <div className="text-white p-8 text-lg">Loading...</div>;
+
   return (
-    <div>
-      <h3 className="text-xl font-bold mb-4">Find a Mentor</h3>
-      <div className="grid md:grid-cols-2 gap-4">
-        {mentors.length === 0 && <div className="text-gray-400">No mentors found.</div>}
-        {mentors.map((mentor, idx) => (
-          <div key={mentor._id} className="bg-violet-900 rounded p-4">
-            <div className="font-bold">{mentor.name}</div>
-            <div className="text-gray-300">{mentor.expertise || "No expertise listed"}</div>
-            <button className="mt-2 bg-indigo-600 px-3 py-1 rounded text-white">Message</button>
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 p-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-gray-900 bg-opacity-90 rounded-xl p-8 shadow-lg mb-8 border border-gray-700">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-4xl font-bold text-white mb-2">Profile Information</h1>
+              <p className="text-gray-300 text-lg">Manage your personal and academic details</p>
+            </div>
+            <button
+              onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center text-lg"
+            >
+              {isEditing ? <FaSave className="mr-2" /> : <FaEdit className="mr-2" />}
+              {isEditing ? 'Save Changes' : 'Edit Profile'}
+            </button>
           </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-function TeamSection() {
-  // You can fetch users from your backend or use a static list for now
-  const people = [
-    { name: "Charlie", lookingFor: "Web Dev Team" },
-    { name: "Dana", lookingFor: "AI Project" },
-  ];
-  return (
-    <div>
-      <h3 className="text-xl font-bold mb-4">Find People to Team Up With</h3>
-      <div className="grid md:grid-cols-2 gap-4">
-        {people.map((person, idx) => (
-          <div key={idx} className="bg-amber-900 rounded p-4">
-            <div className="font-bold">{person.name}</div>
-            <div className="text-gray-300">{person.lookingFor}</div>
-            <button className="mt-2 bg-emerald-600 px-3 py-1 rounded text-white">Connect</button>
+        </div>
+
+        {/* Profile Form */}
+        <div className="bg-gray-900 bg-opacity-90 rounded-xl p-8 shadow-lg border border-gray-700">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Basic Information */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+                <FaUser className="mr-3 text-blue-400" />
+                Basic Information
+              </h3>
+              
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">Full Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">Phone</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">Location</label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                />
+              </div>
+            </div>
+
+            {/* Academic Information */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+                <FaGraduationCap className="mr-3 text-green-400" />
+                Academic Information
+              </h3>
+              
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">Year of Study</label>
+                <select
+                  value={formData.year}
+                  onChange={(e) => setFormData({...formData, year: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                >
+                  <option value="">Select Year</option>
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3">3rd Year</option>
+                  <option value="4">Final Year</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">College/University</label>
+                <input
+                  type="text"
+                  value={formData.college}
+                  onChange={(e) => setFormData({...formData, college: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">Background</label>
+                <select
+                  value={formData.background}
+                  onChange={(e) => setFormData({...formData, background: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                >
+                  <option value="">Select Background</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Mobile Development">Mobile Development</option>
+                  <option value="Data Science">Data Science</option>
+                  <option value="Machine Learning">Machine Learning</option>
+                  <option value="Cybersecurity">Cybersecurity</option>
+                  <option value="Cloud Computing">Cloud Computing</option>
+                  <option value="DevOps">DevOps</option>
+                  <option value="UI/UX Design">UI/UX Design</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-gray-200 text-lg font-medium mb-3">Career Goals</label>
+                <select
+                  value={formData.goals}
+                  onChange={(e) => setFormData({...formData, goals: e.target.value})}
+                  disabled={!isEditing}
+                  className="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none disabled:opacity-50 text-lg"
+                >
+                  <option value="">Select Goals</option>
+                  <option value="Software Engineer">Software Engineer</option>
+                  <option value="Data Scientist">Data Scientist</option>
+                  <option value="Product Manager">Product Manager</option>
+                  <option value="DevOps Engineer">DevOps Engineer</option>
+                  <option value="UI/UX Designer">UI/UX Designer</option>
+                  <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+                  <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                  <option value="Full Stack Developer">Full Stack Developer</option>
+                </select>
+              </div>
+            </div>
           </div>
-        ))}
+
+          {/* Current Status Display */}
+          <div className="mt-8 pt-8 border-t border-gray-700">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
+              <FaBullseye className="mr-3 text-purple-400" />
+              Current Status
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gray-800 rounded-lg p-4 border border-gray-600">
+                <div className="text-gray-400 text-sm font-medium">Year</div>
+                <div className="text-white text-xl font-bold">{user?.year || 'Not Set'}</div>
+              </div>
+              <div className="bg-gray-800 rounded-lg p-4 border border-gray-600">
+                <div className="text-gray-400 text-sm font-medium">Background</div>
+                <div className="text-white text-xl font-bold">{user?.background || 'Not Set'}</div>
+              </div>
+              <div className="bg-gray-800 rounded-lg p-4 border border-gray-600">
+                <div className="text-gray-400 text-sm font-medium">Goals</div>
+                <div className="text-white text-xl font-bold">{user?.goals || 'Not Set'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

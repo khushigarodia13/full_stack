@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaGithub } from "react-icons/fa";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
@@ -16,38 +16,43 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-gradient-to-r from-black via-gray-900 to-gray-800 shadow flex items-center justify-between px-8 py-4">
-      <Link to="/" className="text-2xl font-extrabold text-white tracking-tight drop-shadow-lg">
+    <nav className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 shadow-lg flex items-center justify-between px-8 py-4">
+      <Link to="/" className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">
         EduWise
       </Link>
-      <div className="flex gap-4 items-center">
-        <Link to="/resume" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-semibold shadow transition">
+      <div className="flex gap-6 items-center">
+        <Link to="/resume" className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-6 py-2 rounded-lg font-semibold shadow transition-all duration-300">
           View Resume
         </Link>
-        <Link to="/dashboard" className="text-gray-200 hover:text-indigo-400 transition">Dashboard</Link>
-        <Link to="/roadmap" className="text-gray-200 hover:text-indigo-400 transition">Roadmap</Link>
-        <Link to="/job-prep" className="text-gray-200 hover:text-indigo-400 transition">Job Prep</Link>
-        <Link to="/profile" className="text-gray-200 hover:text-indigo-400 transition">Profile</Link>
-        {user && user.githubId && (
-          <a
-            href={`https://github.com/${user.githubId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-2"
-            title="View GitHub Profile"
-          >
-            <FaGithub className="text-2xl text-gray-300 hover:text-white transition" />
-          </a>
-        )}
-        <button
-          onClick={() => {
-            localStorage.removeItem("token");
-            window.location.href = "/login";
-          }}
-          className="text-red-400 hover:text-red-600 font-semibold ml-2"
-        >
-          Logout
-        </button>
+        <Link to="/dashboard" className="text-white hover:text-indigo-300 transition-colors duration-300 font-medium">Dashboard</Link>
+        <Link to="/roadmap" className="text-white hover:text-indigo-300 transition-colors duration-300 font-medium">Roadmap</Link>
+        <Link to="/job-prep" className="text-white hover:text-indigo-300 transition-colors duration-300 font-medium">Job Prep</Link>
+        <Link to="/profile" className="text-white hover:text-indigo-300 transition-colors duration-300 font-medium">Profile</Link>
+        
+        {/* User greeting and logout */}
+        <div className="flex items-center gap-4 ml-4">
+          {user ? (
+            <div className="flex items-center gap-3">
+              <div className="bg-white bg-opacity-20 px-4 py-2 rounded-lg">
+                <span className="text-white font-semibold">Hi {user.name || 'Student'}!</span>
+              </div>
+              <button
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  window.location.href = "/login";
+                }}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2"
+              >
+                <FaSignOutAlt />
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300">
+              Login
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   );

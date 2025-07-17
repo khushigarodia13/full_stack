@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('./passport');
+require('./models/DailyLog');
 const app = express();
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
@@ -20,13 +21,16 @@ const userRoutes = require('./routes/user');
 const learningPathRoutes = require('./routes/learningPath');
 const resourceRoutes = require('./routes/resource');
 const githubRoutes = require('./routes/github');
-app.use('/api/user', githubRoutes);
+const productivityRoutes = require('./routes/productivity');
+const connectionRoutes = require('./routes/connections');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/learning-path', learningPathRoutes);
 app.use('/api/resource', resourceRoutes);
 app.use('/api/user', githubRoutes);
+app.use('/api/productivity', productivityRoutes);
+app.use('/api/connections', connectionRoutes);
 app.get('/', (req, res) => {
   res.send('EduWise API is running!');
 });

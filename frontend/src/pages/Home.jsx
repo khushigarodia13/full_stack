@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaGithub, FaRocket, FaUserGraduate, FaChartLine } from "react-icons/fa";
+import { FaRocket, FaUserGraduate, FaChartLine } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -40,7 +40,7 @@ export default function Home() {
           description="Track your learning, mark modules as complete, and visualize your journey."
         />
         <FeatureCard
-          icon={<FaGithub className="text-3xl text-gray-300" />}
+                      icon={<FaRocket className="text-3xl text-gray-300" />}
           title="GitHub Sync"
           description="Connect your GitHub to auto-track projects, commits, and build a live resume."
         />

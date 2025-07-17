@@ -11,8 +11,12 @@ import { Toaster } from "react-hot-toast";
 import JobPrep from "./pages/JobPrep";
 import Resume from "./pages/Resume";
 import Profile from "./pages/Profile";
+import Timetable from "./pages/Timetable";
+import TeamFinder from "./pages/TeamFinder";
 
-
+  import { ToastContainer } from "react-toastify";
+  // ...
+  <ToastContainer />
 // ...other imports
 
 function App() {
@@ -20,6 +24,7 @@ function App() {
     <BrowserRouter>
     <Navbar />
     <Toaster />
+     <ToastContainer />
       <Routes>
          <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -31,7 +36,8 @@ function App() {
         <Route path="/job-prep" element={<JobPrep />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/profile" element={<Profile />} />
-        
+        <Route path="/timetable" element={<Timetable />} />
+        <Route path="/team-finder" element={<TeamFinder />} />
         {/* ...other routes */}
       </Routes>
     </BrowserRouter>

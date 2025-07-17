@@ -1,3 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Professional Color Scheme - Deep Blues and Violets */
+
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  color: #ffffff; /* Pure white text */
+}
+
+/* Professional text colors for better visibility */
+.text-gray-300 {
+  color: #e5e7eb !important; /* Much lighter gray */
+}
+
+.text-gray-400 {
+  color: #d1d5db !important; /* Lighter gray */
+}
+
+.text-gray-500 {
+  color: #9ca3af !important; /* Lighter gray */
+}
+
+/* Enhanced button and input styles with professional colors */
+button, input, select, textarea {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+/* Better focus states with professional colors */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6; /* Professional blue */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Professional card shadows */
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Better hover effects */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Enhanced loading animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Professional gradient backgrounds */
+.bg-gradient-to-br {
+  background: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+/* Better text contrast with professional colors */
+.text-white {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+/* Enhanced form elements with professional colors */
+input, select, textarea {
+  background-color: #374151; /* Professional background */
+  border: 1px solid #4b5563; /* Professional border */
+  color: #ffffff; /* Pure white text */
+  transition: all 0.2s ease-in-out;
+}
+
+input:hover, select:hover, textarea:hover {
+  border-color: #6b7280; /* Professional hover border */
+  background-color: #4b5563; /* Professional hover background */
+}
+
+/* Professional button styles */
+.btn {
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Professional card styles */
+.card {
+  background: rgba(55, 65, 81, 0.9); /* Professional card background */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(107, 114, 128, 0.6); /* Professional border */
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Professional scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #374151; /* Professional track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6b7280; /* Professional thumb */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af; /* Professional hover */
+}
+
+/* Professional color classes */
+.bg-professional-blue {
+  background-color: #1e40af !important;
+}
+
+.bg-professional-indigo {
+  background-color: #3730a3 !important;
+}
+
+.bg-professional-violet {
+  background-color: #5b21b6 !important;
+}
+
+.bg-professional-slate {
+  background-color: #475569 !important;
+}
+
+.bg-professional-gray {
+  background-color: #4b5563 !important;
+}
+
+.bg-professional-slate-dark {
+  background-color: #334155 !important;
+}
+
+.text-professional-blue {
+  color: #3b82f6 !important;
+}
+
+.text-professional-indigo {
+  color: #6366f1 !important;
+}
+
+.text-professional-violet {
+  color: #8b5cf6 !important;
+}
+
+.text-professional-slate {
+  color: #64748b !important;
+}
+
+.text-professional-gray {
+  color: #6b7280 !important;
+}
