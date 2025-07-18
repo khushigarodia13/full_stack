@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
+import API_BASE_URL from "../utils/api";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
@@ -8,7 +9,7 @@ export default function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    fetch("https://eduwise-backend-itjy.onrender.com", {
+    fetch(`${API_BASE_URL}/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

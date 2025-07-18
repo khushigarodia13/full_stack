@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../utils/api";
 
 export default function Onboarding() {
   const [background, setBackground] = useState("");
@@ -16,7 +17,7 @@ export default function Onboarding() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/api/user/onboarding", {
+    const res = await fetch(`${API_BASE_URL}/api/user/onboarding`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,13 +26,13 @@ export default function Onboarding() {
       body: JSON.stringify({ 
         background, 
         goals, 
-        selectedCompany,
-        college,
-        year,
-        skills,
-        github,
-        linkedin,
-        location
+        selectedCompany, 
+        college, 
+        year, 
+        skills, 
+        github, 
+        linkedin, 
+        location 
       }),
     });
     if (res.ok) {

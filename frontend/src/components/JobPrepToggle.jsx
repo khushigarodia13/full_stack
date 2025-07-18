@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import API_BASE_URL from "../utils/api";
 
 export default function JobPrepToggle({ selectedCompany, setLearningPath }) {
   const [jobPrep, setJobPrep] = useState(false);
@@ -7,14 +8,14 @@ export default function JobPrepToggle({ selectedCompany, setLearningPath }) {
     const token = localStorage.getItem("token");
     if (!jobPrep && selectedCompany) {
       // Fetch company-specific path
-      const res = await fetch(`https://eduwise-backend-itjy.onrender.com/company/${selectedCompany}`, {
+      const res = await fetch(`${API_BASE_URL}/api/learning-path/company/${selectedCompany}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
       setLearningPath(data.learningPath);
     } else {
       // Fetch default path
-      const res = await fetch("https://eduwise-backend-itjy.onrender.com", {
+      const res = await fetch(`${API_BASE_URL}/api/learning-path`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();

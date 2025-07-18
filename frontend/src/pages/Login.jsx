@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaEnvelope, FaLock, FaGoogle, FaGithub, FaUserPlus } from "react-icons/fa";
+import API_BASE_URL from "../utils/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await fetch("https://eduwise-backend-itjy.onrender.com", {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),

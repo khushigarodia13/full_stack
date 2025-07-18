@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import API_BASE_URL from "../utils/api";
 
 export default function GitHubSync() {
   const [events, setEvents] = useState([]);
@@ -9,7 +10,7 @@ export default function GitHubSync() {
   const handleSync = async () => {
     setLoading(true);
     const token = localStorage.getItem("token");
-    const res = await fetch("https://eduwise-backend-itjy.onrender.com", {
+    const res = await fetch(`${API_BASE_URL}/api/github/activity`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) {

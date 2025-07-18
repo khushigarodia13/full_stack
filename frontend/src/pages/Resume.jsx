@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { FaDownload, FaEdit, FaEye, FaPlus, FaTrash, FaPhone, FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaGithub } from "react-icons/fa";
+import API_BASE_URL from "../utils/api";
 
 export default function Resume() {
   const [resume, setResume] = useState(null);
@@ -22,7 +23,7 @@ export default function Resume() {
       return;
     }
 
-    fetch("http://localhost:5000/api/user/resume", {
+    fetch(`${API_BASE_URL}/api/user/resume`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => {

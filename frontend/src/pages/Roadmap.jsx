@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FaRocket, FaBrain, FaCode, FaDatabase, FaMobile, FaShieldAlt, FaCloud, FaPalette, FaGraduationCap, FaCheckCircle, FaPlay, FaArrowRight } from "react-icons/fa";
+import API_BASE_URL from "../utils/api";
 
 // ✅ Separate ResourceItem component
 function ResourceItem({ resId }) {
   const [resource, setResource] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/resource/${resId}`)
+    fetch(`${API_BASE_URL}/api/resource/${resId}`)
       .then(res => res.json())
       .then(data => setResource(data.resource));
   }, [resId]);
@@ -40,19 +41,19 @@ export default function Roadmap() {
     const token = localStorage.getItem("token");
 
     // Fetch user data for year-based customization
-    fetch("http://localhost:5000/api/user/me", {
+    fetch(`${API_BASE_URL}/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
       .then(data => setUser(data.user));
 
-    fetch("https://eduwise-backend-itjy.onrender.com", {
+    fetch(`${API_BASE_URL}/api/learning-path`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
       .then(data => setLearningPath(data.learningPath));
 
-    fetch("https://eduwise-backend-itjy.onrender.com", {
+    fetch(`${API_BASE_URL}/api/user/progress`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -78,7 +79,7 @@ export default function Roadmap() {
   // Handler: Mark/unmark technology as complete
   const handleTechCheckbox = async (roadmap, checked) => {
     const token = localStorage.getItem("token");
-    await fetch("https://eduwise-backend-itjy.onrender.com", {
+    await fetch(`${API_BASE_URL}/api/user/progress/technology`, {
       method: checked ? "POST" : "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +88,7 @@ export default function Roadmap() {
       body: JSON.stringify({ nodeId: roadmap.title }),
     });
     // Refresh progress
-    fetch("https://eduwise-backend-itjy.onrender.com", {
+    fetch(`${API_BASE_URL}/api/user/progress`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -97,7 +98,7 @@ export default function Roadmap() {
   // Handler: Mark/unmark subtopic as complete
   const handleStepCheckbox = async (roadmap, step, checked) => {
     const token = localStorage.getItem("token");
-    await fetch("http://localhost:5000/api/user/progress/step", {
+    await fetch(`${API_BASE_URL}/api/user/progress/step`, {
       method: checked ? "POST" : "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -106,7 +107,7 @@ export default function Roadmap() {
       body: JSON.stringify({ nodeId: roadmap.title, stepTitle: step.title }),
     });
     // Refresh progress
-    fetch("http://localhost:5000/api/user/progress", {
+    fetch(`${API_BASE_URL}/api/user/progress`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())

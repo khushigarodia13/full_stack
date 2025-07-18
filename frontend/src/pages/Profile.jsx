@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaUser, FaEdit, FaSave, FaEnvelope, FaPhone, FaMapMarkerAlt, FaGraduationCap, FaBullseye } from "react-icons/fa";
+import API_BASE_URL from "../utils/api";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -8,7 +9,7 @@ export default function Profile() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:5000/api/user/me", {
+    fetch(`${API_BASE_URL}/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
@@ -31,7 +32,7 @@ export default function Profile() {
   const handleSave = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("https://eduwise-backend-itjy.onrender.com", {
+      const response = await fetch(`${API_BASE_URL}/api/user/me`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

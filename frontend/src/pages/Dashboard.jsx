@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTrophy, FaUser, FaCalendar, FaBullseye, FaChartLine } from "react-icons/fa";
 import ProductivityScoreCard from "../components/ProductivityScoreCard";
 import ResumeSectionTips from "../components/ResumeSectionTips";
+import API_BASE_URL from "../utils/api";
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
@@ -19,7 +20,7 @@ export default function Dashboard() {
     const token = localStorage.getItem("token");
     if (!token) return navigate("/login");
 
-    fetch("http://localhost:5000/api/user/me", {
+    fetch(`${API_BASE_URL}/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -31,7 +32,7 @@ export default function Dashboard() {
       .then(data => setUser(data.user))
       .catch(err => console.error('Error fetching user data:', err));
 
-    fetch("http://localhost:5000/api/learning-path", {
+    fetch(`${API_BASE_URL}/api/learning-path`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -43,7 +44,7 @@ export default function Dashboard() {
       .then(data => setLearningPath(data.learningPath))
       .catch(err => console.error('Error fetching learning path:', err));
 
-    fetch("http://localhost:5000/api/user/progress", {
+    fetch(`${API_BASE_URL}/api/user/progress`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -56,7 +57,7 @@ export default function Dashboard() {
       .catch(err => console.error('Error fetching progress:', err));
 
     // Fetch productivity data
-    fetch("https://eduwise-backend-itjy.onrender.com", {
+    fetch(`${API_BASE_URL}/api/productivity`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
