@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import API_BASE_URL from "../utils/api";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      setUser(null);
+      return;
+    }
     fetch(`${API_BASE_URL}/api/user/me`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(data => setUser(data.user));
-  }, []);
+  }, [location]);
 
   return (
     <nav className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 shadow-lg flex items-center justify-between px-8 py-4">
