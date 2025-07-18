@@ -31,8 +31,7 @@ export default function Dashboard() {
       })
       .then(data => setUser(data.user))
       .catch(err => console.error('Error fetching user data:', err));
-
-      fetch(`${API_BASE_URL}/api/productivity/today`, {
+      fetch(`${API_BASE_URL}/api/learning-path`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => {
