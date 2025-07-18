@@ -32,9 +32,9 @@ export default function Dashboard() {
       .then(data => setUser(data.user))
       .catch(err => console.error('Error fetching user data:', err));
 
-    fetch(`${API_BASE_URL}/api/learning-path`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+      fetch(`${API_BASE_URL}/api/productivity/today`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
       .then(res => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -57,7 +57,7 @@ export default function Dashboard() {
       .catch(err => console.error('Error fetching progress:', err));
 
     // Fetch productivity data
-    fetch(`${API_BASE_URL}/api/productivity`, {
+    fetch(`${API_BASE_URL}/api/productivity/today`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {

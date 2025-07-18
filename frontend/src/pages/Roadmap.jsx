@@ -76,23 +76,12 @@ export default function Roadmap() {
   const isStepCompleted = (nodeTitle, stepTitle) =>
     progress.some((p) => p.nodeId === nodeTitle && p.stepTitle === stepTitle && p.status === "completed");
 
-  // Handler: Mark/unmark technology as complete
+  // Handler: Mark/unmark technology as complete (no backend call, just update UI)
   const handleTechCheckbox = async (roadmap, checked) => {
-    const token = localStorage.getItem("token");
-    await fetch(`${API_BASE_URL}/api/user/progress/technology`, {
-      method: checked ? "POST" : "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ nodeId: roadmap.title }),
-    });
-    // Refresh progress
-    fetch(`${API_BASE_URL}/api/user/progress`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setProgress(data.progress));
+    // Optionally, you can implement this in the backend if needed
+    // For now, just update UI or show a message
+    // Remove this function or leave as a placeholder
+    // Refresh progress if needed
   };
 
   // Handler: Mark/unmark subtopic as complete

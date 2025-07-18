@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPlus, FaCheck, FaClock, FaCalendar, FaBullseye, FaChartLine } from 'react-icons/fa';
+import API_BASE_URL from "../utils/api";
 
 export default function Timetable() {
   const [tasks, setTasks] = useState([]);
@@ -31,7 +32,7 @@ export default function Timetable() {
   // Fetch today's tasks and completed state from backend on mount
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5000/api/productivity/today', {
+    fetch(`${API_BASE_URL}/api/productivity/today`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -56,7 +57,7 @@ export default function Timetable() {
     setNewTask('');
     // Sync with backend
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5000/api/productivity/add-task', {
+    fetch(`${API_BASE_URL}/api/productivity/add-task`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ export default function Timetable() {
     const task = tasks.find(t => (t._id || (t.name + t.time)) === taskId);
     if (!task) return;
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5000/api/productivity/delete-task', {
+    fetch(`${API_BASE_URL}/api/productivity/delete-task`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ export default function Timetable() {
     if (!task) return;
     const isCompleted = !task.completed;
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5000/api/productivity/complete-task', {
+    fetch(`${API_BASE_URL}/api/productivity/complete-task`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
